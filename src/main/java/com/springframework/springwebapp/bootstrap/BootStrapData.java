@@ -2,8 +2,10 @@ package com.springframework.springwebapp.bootstrap;
 
 import com.springframework.springwebapp.model.Author;
 import com.springframework.springwebapp.model.Book;
+import com.springframework.springwebapp.model.Publisher;
 import com.springframework.springwebapp.repositories.AuthorRepo;
 import com.springframework.springwebapp.repositories.BookRepo;
+import com.springframework.springwebapp.repositories.PubRepo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,19 +18,30 @@ public class BootStrapData implements CommandLineRunner {
 
     private final AuthorRepo authorRepo;
     private final BookRepo bookRepo;
+    private final PubRepo pubRepo;
 
-    public BootStrapData(AuthorRepo authorRepo, BookRepo bookRepo) {
+    public BootStrapData(AuthorRepo authorRepo, BookRepo bookRepo, PubRepo pubRepo) {
         this.authorRepo = authorRepo;
         this.bookRepo = bookRepo;
+        this.pubRepo = pubRepo;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
+        Publisher pub = new Publisher();
+        pub.setName("Vaughn Vernon");
+        pub.setState("NY");
+        pub.setCity("New York City");
+
+        pubRepo.save(pub);
+        System.out.println("Publisher Count: " + pubRepo.count());
         Author eric = new Author("Eric", "Evans");
         Book ddd = new Book("Domain Driven Design", "123123");
         eric.getBook().add(ddd);
         ddd.getAuthors().add(eric);
+
+
 
         //Using repo to save them (using hibernate to save them in memory h2a)
         authorRepo.save(eric);
