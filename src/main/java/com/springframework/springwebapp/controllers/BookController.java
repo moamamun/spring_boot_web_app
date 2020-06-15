@@ -18,6 +18,6 @@ public class BookController {
     public String getBooks(Model model) {
 
         model.addAttribute("books", bookRepo.findAll());
-        return "books/list.html";
+        return "books/list";
     }
 }
